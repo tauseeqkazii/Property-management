@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Lease Document</title>
+  </head>
+  <body>
+    <h1>Upload Lease Agreement</h1>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <label for="tenant_name">Tenant Name:</label>
+      <input type="text" id="tenant_name" name="tenant_name" required />
+      <br />
+      <label for="property_address">Property Address:</label>
+      <input
+        type="text"
+        id="property_address"
+        name="property_address"
+        required
+      />
+      <br />
+      <label for="start_date">Start Date:</label>
+      <input type="date" id="start_date" name="start_date" required />
+      <br />
+      <label for="end_date">End Date:</label>
+      <input type="date" id="end_date" name="end_date" required />
+      <br />
+      <label for="document">Document:</label>
+      <input type="file" id="document" name="document" required />
+      <br />
+      <button type="submit">Upload</button>
+    </form>
+  </body>
+</html>

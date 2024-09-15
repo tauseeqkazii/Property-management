@@ -1,3 +1,72 @@
+from django.core.cache import cache
+from .models import Property
 from django.shortcuts import render
+from .mongo_models import LeaseAgreement
+from django.core.files.storage import default_storage
+from .models import Tenant
+from .models import Payment
 
-# Create your views here.
+
+def upload_lease_agreement(request):
+    if request.method == 'POST':
+        tenant_name = request.POST['tenant_name']
+        property_address = request.POST['property_address']
+        start_date = request.POST['start_date']
+        end_date = request.POST['end_date']
+        document = request.FILES['document']
+
+        lease = LeaseAgreement(
+            tenant_name=tenant_name,
+            property_address=property_address,
+            start_date=start_date,
+            end_date=end_date,
+            document=document
+        )
+        lease.save()
+
+    return render(request, 'upload_lease_agreement.html')
+
+def get_property_details(request, property_id):
+    cache_key = f'property_{property_id}'
+    property_data = cache.get(cache_key)
+    if not property_data:
+        property_data = Property.objects.get(id=property_id)
+        cache.set(cache_key, property_data, timeout=60)  # Cache for 60 seconds
+    return render(request, 'property_detail.html', {'property': property_data})
+
+
+
+def list_properties(request):
+    properties = Property.objects.all()
+    return render(request, 'list_properties.html', {'properties': properties})
+
+def list_tenants(request, property_id):
+    tenants = Tenant.objects.filter(rented_property_id=property_id)
+    return render(request, 'list_tenants.html', {'tenants': tenants})
+
+def view_payment_history(request, tenant_id):
+    payments = Payment.objects.filter(tenant_id=tenant_id)
+    return render(request, 'payment_history.html', {'payments': payments})
+
+
+def search_properties(request):
+    query = request.GET.get('q', '')
+    cache_key = f'search_properties_{query}'
+    properties = cache.get(cache_key)
+
+    if not properties:
+        properties = Property.objects.filter(name__icontains=query)
+        cache.set(cache_key, properties, timeout=300)  # Cache for 5 minutes
+
+    return render(request, 'search_properties.html', {'properties': properties})
+
+def search_tenants(request):
+    query = request.GET.get('q', '')
+    cache_key = f'search_tenants_{query}'
+    tenants = cache.get(cache_key)
+
+    if not tenants:
+        tenants = Tenant.objects.filter(name__icontains=query)
+        cache.set(cache_key, tenants, timeout=300)  # Cache for 5 minutes
+
+    return render(request, 'search_tenants.html', {'tenants': tenants})
