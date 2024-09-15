@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Search Results</title>
+    <style>
+      .results-container {
+        margin: 20px;
+      }
+      .section {
+        margin-bottom: 20px;
+      }
+      .item {
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="results-container">
+      <h1>Search Results</h1>
+
+      <!-- Search Form -->
+      <form method="GET" action="{% url 'search' %}">
+        <input
+          type="text"
+          name="q"
+          placeholder="Search..."
+          value="{{ request.GET.q }}"
+        />
+        <button type="submit">Search</button>
+      </form>
+
+      <!-- Properties Section -->
+      <div class="section">
+        <h2>Properties</h2>
+        <div class="item-list">
+          {% if properties %} {% for property in properties %}
+          <div class="item">
+            {{ property.name }} - {{ property.address }}
+          </div>
+          {% endfor %} {% else %}
+          <div class="item">No properties found.</div>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Tenants Section -->
+      <div class="section">
+        <h2>Tenants</h2>
+        <div class="item-list">
+          {% if tenants %} {% for tenant in tenants %}
+          <div class="item">
+            {{ tenant.name }} - {{ tenant.email }}
+          </div>
+          {% endfor %} {% else %}
+          <div class="item">No tenants found.</div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
