@@ -1,0 +1,5 @@
+# Ignore environment variables file
+.env
+
+# Ignore settings.py if it contains sensitive data
+settings.py
