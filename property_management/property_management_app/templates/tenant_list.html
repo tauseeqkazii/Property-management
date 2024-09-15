@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <style>
+      .tenant-item {
+        border: 1px solid #ddd;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 4px;
+      }
+    </style>
+    <title>Lease Document</title>
+  </head>
+  <body>
+    <h1>Tenants for {{ property.name }}</h1>
+    <div class="tenants-list">
+      {% for tenant in tenants %}
+      <div class="tenant-item">
+        <strong>{{ tenant.name }}</strong>
+        - {{ tenant.email }}
+      </div>
+      {% empty %}
+      <div>No tenants available.</div>
+      {% endfor %}
+    </div>
+  </body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Property List</title>
+    <style>
+      .property-item {
+        border: 1px solid #ddd;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>All Properties</h1>
+    <div class="properties-list">
+      {% for property in properties %}
+      <div class="property-item">
+        <strong>{{ property.name }}</strong>
+        - {{ property.address }}
+      </div>
+      {% empty %}
+      <div>No properties available.</div>
+      {% endfor %}
+    </div>
+  </body>
+</html>

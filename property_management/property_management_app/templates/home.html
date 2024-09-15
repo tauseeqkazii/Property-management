@@ -45,10 +45,35 @@
 
     <div class="container">
       <h2>Manage Your Properties Effectively</h2>
-      <p>
-        With this system, you can manage tenants, track rent payments, and keep
-        all property documents organized.
-      </p>
+      <nav>
+        <ul>
+          <li><a href="{% url 'list_properties' %}">List Properties</a></li>
+          <li>
+            <a href="{% url 'list_tenants' property_id=1 %}">List Tenants</a>
+          </li>
+          <!-- Add actual property_id -->
+          <li>
+            <a href="{% url 'view_payment_history' tenant_id=1 %}">
+              View Payment History
+            </a>
+          </li>
+          <!-- Add actual tenant_id -->
+          <li>
+            <a href="{% url 'upload_lease_agreement' %}">
+              Upload Lease Agreement
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'retrieve_document' document_id=1 %}">
+              Retrieve Document
+            </a>
+          </li>
+          <!-- Add actual document_id -->
+          <li><a href="{% url 'search_properties' %}">Search Properties</a></li>
+          <li><a href="{% url 'search_tenants' %}">Search Tenants</a></li>
+          <li><a href="{% url 'search_home' %}">Search Home</a></li>
+        </ul>
+      </nav>
     </div>
 
     <footer>

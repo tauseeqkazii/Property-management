@@ -35,7 +35,6 @@ def get_property_details(request, property_id):
 # ===================================================
 
 def list_tenants(request, property_id):
-    """List tenants for a specific property with caching."""
     cache_key = f'tenants_{property_id}'
     tenants = cache.get(cache_key)
     if not tenants:
@@ -83,6 +82,13 @@ def upload_lease_agreement(request):
     
     return render(request, 'upload_lease_agreement.html')
 
+
+def retrieve_document(request, document_id):
+    document = get_object_or_404(LeaseAgreement, id=document_id)
+    response = HttpResponse(document.document.read(), content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename={document.document.name}'
+    return response
+
 # ===================================================
 # Search Views
 # ===================================================
@@ -113,6 +119,9 @@ def search(request):
         # Cache the results for 60 seconds
         cache.set(cache_key, search_results, timeout=60)
     return render(request, 'search_results.html', search_results)
+
+def search_home(request):
+    return render(request, 'search_home.html')
 
 # ===================================================
 # Home View

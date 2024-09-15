@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Search Properties</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+      }
+      .container {
+        width: 80%;
+        margin: 0 auto;
+        overflow: hidden;
+      }
+      header {
+        background: #333;
+        color: #fff;
+        padding-top: 30px;
+        min-height: 70px;
+        border-bottom: #ccc 3px solid;
+        text-align: center;
+      }
+      header h1 {
+        margin: 0;
+        font-size: 24px;
+      }
+      .search-form {
+        margin: 20px 0;
+        text-align: center;
+      }
+      .search-form input[type='text'] {
+        width: 300px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+      .search-form input[type='submit'] {
+        padding: 10px 20px;
+        border: none;
+        background: #333;
+        color: #fff;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .search-form input[type='submit']:hover {
+        background: #555;
+      }
+      .property-list {
+        margin: 20px 0;
+      }
+      .property {
+        background: #fff;
+        margin: 10px 0;
+        padding: 15px;
+        border: #ddd 1px solid;
+        border-radius: 5px;
+      }
+      .property h2 {
+        margin: 0;
+        font-size: 20px;
+      }
+      .property p {
+        margin: 5px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <h1>Search Properties</h1>
+      </div>
+    </header>
+    <div class="container">
+      <!-- Search Form -->
+      <div class="search-form">
+        <form method="get" action="{% url 'search_properties' %}">
+          <input
+            type="text"
+            name="q"
+            placeholder="Search for properties..."
+            value="{{ request.GET.q }}"
+          />
+          <input type="submit" value="Search" />
+        </form>
+      </div>
+
+      <!-- Search Results -->
+      {% if properties %}
+      <div class="property-list">
+        {% for property in properties %}
+        <div class="property">
+          <h2>{{ property.name }}</h2>
+          <p>
+            <strong>Address:</strong>
+            {{ property.address }}
+          </p>
+          <p>
+            <strong>Price:</strong>
+            ${{ property.price }}
+          </p>
+          <p>
+            <strong>Description:</strong>
+            {{ property.description }}
+          </p>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <p>No properties found matching your search query.</p>
+      {% endif %}
+    </div>
+  </body>
+</html>
